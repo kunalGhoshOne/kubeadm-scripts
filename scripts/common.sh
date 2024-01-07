@@ -5,7 +5,7 @@
 
 # Common setup for all servers (Control Plane and Nodes)
 
-set -euxo pipefail
+# set -euxo pipefail
 
 # Variable Declaration
 
