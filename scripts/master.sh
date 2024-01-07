@@ -14,7 +14,7 @@ NETWORK_INTERFACE=$1
 
 # Setup for Control Plane (Master) servers
 
-set -euxo pipefail
+set -euxo pipefail;
 
 # If you need public access to API server using the servers Public IP adress, change PUBLIC_IP_ACCESS to true.
 
