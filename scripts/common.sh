@@ -1,5 +1,14 @@
 #!/bin/bash
 #
+#
+# check  the arg to get the network interface
+if [ "$#" -eq 0 ]; then
+    echo "
+    common.sh network_interface_name
+    Usage: common.sh ens3 "
+    exit 1
+fi
+NETWORK_INTERFACE=$1;
 # Common setup for all servers (Control Plane and Nodes)
 
 set -euxo pipefail
@@ -70,7 +79,7 @@ sudo apt-get install -y kubelet="$KUBERNETES_VERSION" kubectl="$KUBERNETES_VERSI
 sudo apt-get update -y
 sudo apt-get install -y jq
 
-local_ip="$(ip --json addr show eth0 | jq -r '.[0].addr_info[] | select(.family == "inet") | .local')"
+local_ip="$(ip --json addr show $NETWORK_INTERFACE | jq -r '.[0].addr_info[0].local')"
 cat > /etc/default/kubelet << EOF
 KUBELET_EXTRA_ARGS=--node-ip=$local_ip
 EOF

@@ -1,5 +1,17 @@
 #!/bin/bash
 #
+#
+# check  the arg to get the network interface
+if [ "$#" -eq 0 ]; then
+    echo "
+    master.sh network_interface_name
+    Usage: master.sh ens3 "
+    exit 1
+fi
+NETWORK_INTERFACE=$1;
+
+
+
 # Setup for Control Plane (Master) servers
 
 set -euxo pipefail
@@ -18,7 +30,7 @@ sudo kubeadm config images pull
 
 if [[ "$PUBLIC_IP_ACCESS" == "false" ]]; then
     
-    MASTER_PRIVATE_IP=$(ip addr show eth0 | awk '/inet / {print $2}' | cut -d/ -f1)
+    MASTER_PRIVATE_IP=$(ip addr show $NETWORK_INTERFACE | jq -r '.[0].addr_info[0].local')
     sudo kubeadm init --apiserver-advertise-address="$MASTER_PRIVATE_IP" --apiserver-cert-extra-sans="$MASTER_PRIVATE_IP" --pod-network-cidr="$POD_CIDR" --node-name "$NODENAME" --ignore-preflight-errors Swap
 
 elif [[ "$PUBLIC_IP_ACCESS" == "true" ]]; then
