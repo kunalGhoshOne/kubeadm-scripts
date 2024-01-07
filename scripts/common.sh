@@ -2,6 +2,13 @@
 #
 #
 # check  the arg to get the network interface
+
+# Common setup for all servers (Control Plane and Nodes)
+
+set -euxo pipefail
+
+# Variable Declaration
+
 if [ "$#" -eq 0 ]; then
     echo "
     common.sh network_interface_name
@@ -9,11 +16,7 @@ if [ "$#" -eq 0 ]; then
     exit 1
 fi
 NETWORK_INTERFACE=$1
-# Common setup for all servers (Control Plane and Nodes)
 
-set -euxo pipefail
-
-# Variable Declaration
 
 KUBERNETES_VERSION="1.28.1-00"
 
