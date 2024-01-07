@@ -8,7 +8,7 @@ if [ "$#" -eq 0 ]; then
     Usage: common.sh ens3 "
     exit 1
 fi
-NETWORK_INTERFACE=$1;
+NETWORK_INTERFACE=$1
 # Common setup for all servers (Control Plane and Nodes)
 
 set -euxo pipefail
